@@ -19,7 +19,7 @@ import scala.util.{Failure, Success}
 object SampleServer extends App {
   implicit val system = ActorSystem("akka-rate-limiter")
   val helloActor = system.actorOf(Props[HelloActor])
-  val rateLimiter = system.actorOf(Props(new RateLimitActor(10000, .02, 100, 10, 5, helloActor)).withDispatcher("priority-dispatcher"))
+  val rateLimiter = system.actorOf(Props(new RateLimitActor(10000, .02, 300, 10, 100, helloActor)).withDispatcher("priority-dispatcher"))
 
   // takes the list of transformations and materializes them in the form of org.reactivestreams.Processor instances
   implicit val materializer = ActorMaterializer()

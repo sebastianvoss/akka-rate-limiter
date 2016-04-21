@@ -20,6 +20,16 @@ class PrioritizedMailbox(settings: ActorSystem.Settings, cfg: Config)
       case _ => 10
     })
 
+/** A rate limiter based on counting bloom filters
+  *
+  * @constructor create a new rate limiter actor
+  * @param numRequests expected number of requests within batchLength
+  * @param falsePositiveRate desired false positive rate (between 0 and 1)
+  * @param slidingWindowLength length of the sliding window in seconds
+  * @param batchLength length of a batch in seconds
+  * @param rateLimit maximum number of requests per slidingWindowLength
+  * @param target actor which will receive the messages when rate limit is not exceeded
+  */
 class RateLimitActor(numRequests: Int, falsePositiveRate: Double, slidingWindowLength: Int, batchLength: Int, rateLimit: Int, target: ActorRef) extends Actor with ActorLogging {
 
   import context.dispatcher
